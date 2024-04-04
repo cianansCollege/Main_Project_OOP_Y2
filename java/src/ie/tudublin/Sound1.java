@@ -104,7 +104,7 @@ public class Sound1 extends PApplet {
         line(centreX, bodyEnd, centreX + armLength, bodyEnd + legLength);
         line(centreX, bodyEnd, centreX - armLength, bodyEnd + legLength);
 
-        countStickman = 2;
+         
 
         //lower arm
         if(countStickman == 0){
@@ -120,8 +120,11 @@ public class Sound1 extends PApplet {
             line(centreX + armLength, bodyStart, centreX + armLength, bodyStart - armLength);
             countStickman = 0;
         }
-        // countStickman = countStickman + 1;
-
+        
+        if(avgAmplitude > .001){
+                    countStickman = countStickman + 1;
+                    System.out.println("true");
+                }
     }
 
     float lerped = 0;
