@@ -6,7 +6,7 @@ import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import processing.core.PApplet;
 
-public class Display extends PApplet {
+public class Sound1 extends PApplet {
 
     Minim m;
     AudioInput ai;
