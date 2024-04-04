@@ -113,15 +113,11 @@ public class Sound1 extends PApplet {
         }
         if(countStickman == 1){
             line(centreX - armLength, bodyStart, centreX - armLength, bodyStart - armLength);
-            line(centreX + armLength, bodyStart, centreX + armLength*2, bodyStart);
-        }
-        if(countStickman == 2){
-            line(centreX - armLength, bodyStart, centreX - armLength, bodyStart - armLength);
             line(centreX + armLength, bodyStart, centreX + armLength, bodyStart - armLength);
             countStickman = 0;
         }
         
-        if(avgAmplitude > .001){
+        if(avgAmplitude > .01){
                     countStickman = countStickman + 1;
                     System.out.println("true");
                 }
