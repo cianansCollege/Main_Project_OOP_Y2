@@ -13,6 +13,8 @@ public class Sound1 extends PApplet {
     AudioPlayer ap;
     AudioBuffer b;
 
+    int maxCircles = 1000; // Maximum number of circles
+    int numCircles = 50;    // Initial number of circles
     float[] circleX;
     float[] circleY;
     float[] speedX;
@@ -30,18 +32,17 @@ public class Sound1 extends PApplet {
         ap.play();
         b = ap.mix;
 
-        int numCircles = 20; // Number of circles
-        circleX = new float[numCircles];
-        circleY = new float[numCircles];
-        speedX = new float[numCircles];
-        speedY = new float[numCircles];
+        circleX = new float[maxCircles];
+        circleY = new float[maxCircles];
+        speedX = new float[maxCircles];
+        speedY = new float[maxCircles];
 
         // Initialize circle positions and speeds
         for (int i = 0; i < numCircles; i++) {
             circleX[i] = random(width);
-            circleY[i] = random(height);
+            circleY[i] = random(-height, 0); // Randomize starting position above the screen
             speedX[i] = random(-1, 1);
-            speedY[i] = random(-1, 1);
+            speedY[i] = random(-1, -0.5f);  // Adjusted for upward motion
         }
     }
 
@@ -51,22 +52,30 @@ public class Sound1 extends PApplet {
         background(20, 80, 200);
         stroke(0);
 
-        for (int i = 0; i < circleX.length; i++) {
+        // Draw and update existing circles
+        for (int i = 0; i < numCircles; i++) {
             // Update circle position
             circleX[i] += speedX[i];
             circleY[i] += speedY[i];
 
-            // Check boundaries and bounce if necessary
-            if (circleX[i] < 0 || circleX[i] > width) {
-                speedX[i] *= -1;
-            }
-            if (circleY[i] < 0 || circleY[i] > height) {
-                speedY[i] *= -1;
+            // Check boundaries and reset if out of screen
+            if (circleY[i] < -30) {
+                circleX[i] = random(width);
+                circleY[i] = height;
             }
 
-            // Draw circle
-            fill(0, 40, 90);
-            circle(circleX[i], circleY[i], 30);
+            // Draw bubble
+            fill(0, 40, 90, 100); // Adjusted for transparency
+            ellipse(circleX[i], circleY[i], 30, 30); // Circular shape
+        }
+
+        // Add new bubbles if the number is less than the maximum
+        if (numCircles < maxCircles) {
+            circleX[numCircles] = random(width);
+            circleY[numCircles] = random(-height, 0); // Randomize starting position above the screen
+            speedX[numCircles] = random(-1, 1);
+            speedY[numCircles] = random(-1, -0.5f);  // Adjusted for upward motion
+            numCircles++; // Increment the count of circles
         }
     }
 }
