@@ -13,8 +13,8 @@ public class Sound1 extends PApplet {
     AudioPlayer ap;
     AudioBuffer b;
 
-    int maxCircles = 40; // Maximum number of circles
-    int numCircles = 20;    // Initial number of circles
+    int maxCircles = 30; // Maximum number of circles
+    int numCircles = 15;    // Initial number of circles
     float[] circleX;
     float[] circleY;
     float[] speedX;
@@ -36,18 +36,17 @@ public class Sound1 extends PApplet {
         circleY = new float[maxCircles];
         speedX = new float[maxCircles];
         speedY = new float[maxCircles];
-
-        // Initialize circle positions and speeds
-        for (int i = 0; i < numCircles; i++) {
-            circleX[i] = random(width);
-            circleY[i] = random(-height, 0); // Randomize starting position above the screen
-            speedX[i] = random(-0.5f, 0.5f);      // Adjusted speed
-            speedY[i] = random(-0.5f, -0.2f);  // Adjusted speed and adjusted for upward motion
-        }
     }
 
     @Override
     public void draw() {
+        // Calculate the average amplitude of the audio
+        float sum = 0;
+        for(int i = 0; i < b.size(); i++) {
+            sum += abs(b.get(i));
+        }
+        float avgAmplitude = sum / b.size();
+
         // Background color to mimic underwater environment
         background(10, 70, 200); // Dark blue
 
@@ -63,10 +62,13 @@ public class Sound1 extends PApplet {
                 circleY[i] = height;
             }
 
+            // Calculate the size of the bubble based on the average amplitude of the audio
+            float circleSize = map(avgAmplitude, 0, 1, 0, min(width, height));
+            
             // Draw bubble-like circles with semi-transparency
             noStroke();
             fill(150, 200, 255, 150); // Light blue with transparency
-            ellipse(circleX[i], circleY[i], 60, 60); // Larger circular shape
+            ellipse(circleX[i], circleY[i], circleSize, circleSize); // Circular shape
         }
 
         // Add new bubbles if the number is less than the maximum
