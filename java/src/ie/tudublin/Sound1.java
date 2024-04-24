@@ -50,6 +50,7 @@ public class Sound1 extends PApplet {
     public void draw() {
         background(0, 0, 0); // black background
 
+
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
                 // Bounce off the edges
@@ -67,6 +68,12 @@ public class Sound1 extends PApplet {
                 // increase size based on the amplitude
                 float avgAmplitude = calculateAverageAmplitude();
                 float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10)) * 6;
+
+                // Draw white border around the bubble
+                stroke(255); // White color
+                strokeWeight(1); // Thickness of the border
+                noFill(); 
+                ellipse(circleX[i], circleY[i], circleSize + 6, circleSize + 6); 
 
                 // Draw bubbles with selected color
                 noStroke();
