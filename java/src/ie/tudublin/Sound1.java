@@ -35,7 +35,7 @@ public class Sound1 extends PApplet {
         circleY = new float[maxCircles];
         speedX = new float[maxCircles];
         speedY = new float[maxCircles];
-        bubbleActive = new boolean[maxCircles]; // Initialize the active bubble array
+        bubbleActive = new boolean[maxCircles];
 
         for (int i = 0; i < maxCircles; i++) {
             bubbleActive[i] = true; // All bubbles start as active
@@ -48,7 +48,7 @@ public class Sound1 extends PApplet {
 
     @Override
     public void draw() {
-        background(0, 0, 0);
+        background(0, 0, 0); // black background
 
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
@@ -60,11 +60,11 @@ public class Sound1 extends PApplet {
                     speedY[i] *= -1; // Reverse vertical direction
                 }
 
-                // Update positions with randomized speeds
+                // randomise bubble speed
                 circleX[i] += speedX[i];
                 circleY[i] += speedY[i];
 
-                // Calculate size based on the average amplitude
+                // increase size based on the amplitude
                 float avgAmplitude = calculateAverageAmplitude();
                 float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10)) * 6;
 
