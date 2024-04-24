@@ -82,23 +82,22 @@ public class Sound1 extends PApplet {
     }
 
     @Override
-    public void keyPressed() {
-        // Change bubble color based on key pressed
-        switch(key) {
-            case '1':
-                bubbleColor = color(150, 200, 255, 150); // Blue
-                break;
-            case '2':
-                bubbleColor = color(255, 0, 0, 150); // Red
-                break;
-            case '3':
-                bubbleColor = color(255, 255, 0, 150); // Yellow
-                break;
-            case '4':
-                bubbleColor = color(0, 255, 0, 150); // Green
-                break;
-        }
+public void keyPressed() {
+    switch (key) {
+        case '1':
+            bubbleColor = color(150, 200, 255, 150); // Blue
+            break;
+        case '2':
+            bubbleColor = color(255, 0, 0, 150); // Red
+            break;
+        case '3':
+            bubbleColor = color(255, 255, 0, 150); // Yellow
+            break;
+        case '4':
+            bubbleColor = color(0, 255, 0, 150); // Green
+            break;
     }
+}
 
     //Calculate average amplitude
     private float calculateAverageAmplitude() {
