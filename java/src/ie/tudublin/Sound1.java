@@ -17,6 +17,7 @@ public class Sound1 extends PApplet {
     float[] speedX;
     float[] speedY;
     boolean[] bubbleActive; // Track if bubbles are active
+    int bubbleColor = color(150, 200, 255, 150); // Default bubble color
 
     @Override
     public void settings() {
@@ -67,9 +68,9 @@ public class Sound1 extends PApplet {
                 float avgAmplitude = calculateAverageAmplitude();
                 float circleSize = map(avgAmplitude, 0, 1, 0, min(width, height) / 10);
 
-                // Draw bubbles
+                // Draw bubbles with selected color
                 noStroke();
-                fill(150, 200, 255, 150); // Light blue with transparency
+                fill(bubbleColor);
                 ellipse(circleX[i], circleY[i], circleSize, circleSize);
             }
         }
@@ -81,14 +82,21 @@ public class Sound1 extends PApplet {
     }
 
     @Override
-    public void mousePressed() {
-        for (int i = 0; i < maxCircles; i++) {
-            if (bubbleActive[i]) {
-                float distance = dist(mouseX, mouseY, circleX[i], circleY[i]);
-                if (distance < 20) { // Assuming the radius for popping is 20
-                    bubbleActive[i] = false; // Bubble is popped
-                }
-            }
+    public void keyPressed() {
+        // Change bubble color based on key pressed
+        switch(key) {
+            case '1':
+                bubbleColor = color(150, 200, 255, 150); // Blue
+                break;
+            case '2':
+                bubbleColor = color(255, 0, 0, 150); // Red
+                break;
+            case '3':
+                bubbleColor = color(255, 255, 0, 150); // Yellow
+                break;
+            case '4':
+                bubbleColor = color(0, 255, 0, 150); // Green
+                break;
         }
     }
 
@@ -115,6 +123,4 @@ public class Sound1 extends PApplet {
     public static void main(String[] args) {
         PApplet.main("ie.tudublin.Sound1");
     }
-
-
 }
