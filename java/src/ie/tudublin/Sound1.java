@@ -60,13 +60,13 @@ public class Sound1 extends PApplet {
                     speedY[i] *= -1; // Reverse vertical direction
                 }
 
-                // Update positions
+                // Update positions with randomized speeds
                 circleX[i] += speedX[i];
                 circleY[i] += speedY[i];
 
                 // Calculate size based on the average amplitude
                 float avgAmplitude = calculateAverageAmplitude();
-                float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10))*4;
+                float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10)) * 6;
 
                 // Draw bubbles with selected color
                 noStroke();
@@ -82,23 +82,34 @@ public class Sound1 extends PApplet {
     }
 
     @Override
-public void keyPressed() {
-    switch (key) {
-        case '1':
-            bubbleColor = color(150, 200, 255, 150); // Blue
-            break;
-        case '2':
-            bubbleColor = color(255, 0, 0, 150); // Red
-            break;
-        case '3':
-            bubbleColor = color(255, 255, 0, 150); // Yellow
-            break;
-        case '4':
-            bubbleColor = color(0, 255, 0, 150); // Green
-            break;
-        
+    public void keyPressed() {
+        switch (key) {
+            case '1':
+                bubbleColor = color(150, 200, 255, 150); // Blue
+                break;
+            case '2':
+                bubbleColor = color(255, 0, 0, 150); // Red
+                break;
+            case '3':
+                bubbleColor = color(255, 255, 0, 150); // Yellow
+                break;
+            case '4':
+                bubbleColor = color(0, 255, 0, 150); // Green
+                break;
+        }
     }
-}
+
+    @Override
+    public void mousePressed() {
+        for (int i = 0; i < maxCircles; i++) {
+            if (bubbleActive[i]) {
+                float distance = dist(mouseX, mouseY, circleX[i], circleY[i]);
+                if (distance < (min(width, height) / 20)) { // Adjust the radius for popping
+                    bubbleActive[i] = false; // Bubble is popped
+                }
+            }
+        }
+    }
 
     //Calculate average amplitude
     private float calculateAverageAmplitude() {
@@ -118,7 +129,6 @@ public void keyPressed() {
         }
         return true;
     }
-
 
     public static void main(String[] args) {
         PApplet.main("ie.tudublin.Sound1");
