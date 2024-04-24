@@ -48,7 +48,7 @@ public class Sound1 extends PApplet {
 
     @Override
     public void draw() {
-        background(10, 70, 200); // Dark blue for underwater effect
+        background(0, 0, 0);
 
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
@@ -96,6 +96,7 @@ public void keyPressed() {
         case '4':
             bubbleColor = color(0, 255, 0, 150); // Green
             break;
+        
     }
 }
 
