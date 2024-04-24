@@ -11,7 +11,7 @@ public class Sound1 extends PApplet {
     AudioPlayer ap;
     AudioBuffer b;
 
-    int maxCircles = 30; // Maximum number of circles
+    int maxCircles = 36; // Maximum number of circles
     float[] circleX;
     float[] circleY;
     float[] speedX;
@@ -66,7 +66,7 @@ public class Sound1 extends PApplet {
 
                 // Calculate size based on the average amplitude
                 float avgAmplitude = calculateAverageAmplitude();
-                float circleSize = map(avgAmplitude, 0, 1, 0, min(width, height) / 10);
+                float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10))*4;
 
                 // Draw bubbles with selected color
                 noStroke();
