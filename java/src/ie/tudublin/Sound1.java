@@ -19,6 +19,9 @@ public class Sound1 extends PApplet {
     boolean[] bubbleActive; // Track if bubbles are active
     int bubbleColor = color(150, 200, 255, 150); // Default bubble color
 
+    Particle[] particles = new Particle[1000];
+    int numParticles = 0;
+
     @Override
     public void settings() {
         size(1200, 800);
@@ -50,6 +53,11 @@ public class Sound1 extends PApplet {
     public void draw() {
         background(0, 0, 0); // black background
 
+        // Draw and update particles
+        for (int i = 0; i < numParticles; i++) {
+            particles[i].update();
+            particles[i].draw();
+        }
 
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
@@ -67,13 +75,13 @@ public class Sound1 extends PApplet {
 
                 // increase size based on the amplitude
                 float avgAmplitude = calculateAverageAmplitude();
-                float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10)) * 6;
+                float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10)) * 10;
 
                 // Draw white border around the bubble
                 stroke(255); // White color
                 strokeWeight(1); // Thickness of the border
-                noFill(); 
-                ellipse(circleX[i], circleY[i], circleSize + 6, circleSize + 6); 
+                noFill();
+                ellipse(circleX[i], circleY[i], circleSize + 6, circleSize + 6);
 
                 // Draw bubbles with selected color
                 noStroke();
@@ -104,6 +112,11 @@ public class Sound1 extends PApplet {
                 bubbleColor = color(0, 255, 0, 150); // Green
                 break;
         }
+        
+        // Update particle colors when bubble color changes
+        for (int i = 0; i < numParticles; i++) {
+            particles[i].setColor(bubbleColor);
+        }
     }
 
     @Override
@@ -111,10 +124,18 @@ public class Sound1 extends PApplet {
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
                 float distance = dist(mouseX, mouseY, circleX[i], circleY[i]);
-                if (distance < (min(width, height) / 20)) { // Adjust the radius for popping
+                if (distance < (min(width, height) / 30)) { // Adjust the radius for popping
                     bubbleActive[i] = false; // Bubble is popped
+                    explode(circleX[i], circleY[i]); // Explode at bubble position
                 }
             }
+        }
+    }
+
+    // Create explosion particles at position
+    void explode(float x, float y) {
+        for (int i = 0; i < 50; i++) {
+            particles[numParticles++] = new Particle(x, y, bubbleColor);
         }
     }
 
@@ -135,6 +156,39 @@ public class Sound1 extends PApplet {
             }
         }
         return true;
+    }
+
+    // Particle class for explosion effect
+    class Particle {
+        float x, y;  // Position
+        float vx, vy;  // Velocity
+        float size;  // Size
+        int color;  // Color
+
+        Particle(float x, float y, int bubbleColor) {
+            this.x = x;
+            this.y = y;
+            this.vx = random(-2, 2);
+            this.vy = random(-2, 2);
+            this.size = random(5, 15);
+            this.color = bubbleColor; // Set particle color to bubble color
+        }
+
+        void update() {
+            x += vx;
+            y += vy;
+            vy += 0.1;  
+        }
+
+        void draw() {
+            noStroke();
+            fill(color);
+            ellipse(x, y, size, size);
+        }
+        
+        void setColor(int bubbleColor) {
+            this.color = bubbleColor; // Update particle color
+        }
     }
 
     public static void main(String[] args) {
