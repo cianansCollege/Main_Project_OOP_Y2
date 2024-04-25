@@ -11,7 +11,7 @@ public class Sound1 extends PApplet {
     AudioPlayer ap;
     AudioBuffer b;
 
-    int maxCircles = 60; // Maximum number of circles
+    int maxCircles = 100; // Maximum number of circles
     float[] circleX;
     float[] circleY;
     float[] speedX;
@@ -73,7 +73,7 @@ public class Sound1 extends PApplet {
     @Override
     public void draw() {
         background(0, 0, 0); // black background
-
+    
         // Draw and update particles
         for (int i = 0; i < numParticles; i++) {
             particles[i].update();
@@ -90,21 +90,21 @@ public class Sound1 extends PApplet {
                 }
             }
         }
-
+    
         // Simulate rainfall
         for (int i = 0; i < numDrops; i++) {
             dropY[i] += dropSpeed[i]; // Move raindrop downwards
-
+    
             // Reset raindrop if it goes below the screen
             if (dropY[i] > height) {
                 dropY[i] = random(-height, 0); // Reset to top
             }
-
+    
             // Draw raindrop with random color
             stroke(dropColors[i]);
             line(dropX[i], dropY[i], dropX[i], dropY[i] + 30); // Vertical line representing raindrop
         }
-
+    
         // Draw bubbles
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
@@ -115,33 +115,43 @@ public class Sound1 extends PApplet {
                 if (circleY[i] < 0 || circleY[i] > height) {
                     speedY[i] *= -1; // Reverse vertical direction
                 }
-
+    
                 // randomise bubble speed
                 circleX[i] += speedX[i];
                 circleY[i] += speedY[i];
-
+    
                 // increase size based on the amplitude
                 float avgAmplitude = calculateAverageAmplitude();
                 float circleSize = (map(avgAmplitude, 0, 1, 0, min(width, height) / 10)) * 10;
-
+    
                 // Draw white border around the bubble
                 stroke(255); // White color
                 strokeWeight(1); // Thickness of the border
                 noFill();
                 ellipse(circleX[i], circleY[i], circleSize + 6, circleSize + 6);
-
+    
                 // Draw bubbles with selected color
                 noStroke();
                 fill(bubbleColor);
                 ellipse(circleX[i], circleY[i], circleSize, circleSize);
             }
         }
-
+    
         // Check if all bubbles are popped and if so stop the music
         if (areAllBubblesPopped() && ap.isPlaying()) {
             ap.pause(); // Stop the music
         }
+    
+        // Display "THE END" text in the middle of the screen
+        if (areAllBubblesPopped() && !ap.isPlaying()) {
+            textSize(64);
+            textAlign(CENTER, CENTER);
+            fill(255); // White color
+            text("THE END", width / 2, height / 2);
+        }
     }
+    
+    
 
 
     @Override
