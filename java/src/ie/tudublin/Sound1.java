@@ -11,16 +11,21 @@ public class Sound1 extends PApplet {
     AudioPlayer ap;
     AudioBuffer b;
 
-    int maxCircles = 36; // Maximum number of circles
+    int maxCircles = 60; // Maximum number of circles
     float[] circleX;
     float[] circleY;
     float[] speedX;
     float[] speedY;
     boolean[] bubbleActive; // Track if bubbles are active
-    int bubbleColor = color(150, 200, 255, 150); // Default bubble color
+    int bubbleColor = color(20, 52, 255); // Default bubble color
 
     Particle[] particles = new Particle[1000];
     int numParticles = 0;
+
+    int numDrops = 100; // Number of raindrops
+    float[] dropX, dropY, dropSpeed; // Arrays to store raindrop properties
+    float dropGap; // Gap between raindrops
+    int[] dropColors; // Array to store raindrop colors
 
     @Override
     public void settings() {
@@ -40,12 +45,28 @@ public class Sound1 extends PApplet {
         speedY = new float[maxCircles];
         bubbleActive = new boolean[maxCircles];
 
+        dropX = new float[numDrops];
+        dropY = new float[numDrops];
+        dropSpeed = new float[numDrops];
+        dropGap = width / (float) numDrops; // Calculate gap between raindrops
+        dropColors = new int[numDrops]; // Array to store raindrop colors
+
         for (int i = 0; i < maxCircles; i++) {
             bubbleActive[i] = true; // All bubbles start as active
             circleX[i] = random(width);
             circleY[i] = random(height);
             speedX[i] = random(-2, 2);
             speedY[i] = random(-2, 2);
+        }
+
+        // Initialize raindrop properties
+        for (int i = 0; i < numDrops; i++) {
+            dropX[i] = i * dropGap; // Fixed horizontal position
+            dropY[i] = random(-height, 0); // Start above the screen
+            dropSpeed[i] = 20; // Constant speed for all raindrops
+            // Random vibrant color
+            int dropColor = color(random(100, 255), random(100, 255), random(100, 255));
+            dropColors[i] = dropColor;
         }
     }
 
@@ -57,8 +78,34 @@ public class Sound1 extends PApplet {
         for (int i = 0; i < numParticles; i++) {
             particles[i].update();
             particles[i].draw();
+            
+            // Check for collision with bubbles
+            for (int j = 0; j < maxCircles; j++) {
+                if (bubbleActive[j]) {
+                    float distance = dist(particles[i].x, particles[i].y, circleX[j], circleY[j]);
+                    if (distance < (min(width, height) / 30)) { // Adjust the radius for particle-bubble collision
+                        bubbleActive[j] = false; // Bubble is popped
+                        explode(circleX[j], circleY[j]); // Explode at bubble position
+                    }
+                }
+            }
         }
 
+        // Simulate rainfall
+        for (int i = 0; i < numDrops; i++) {
+            dropY[i] += dropSpeed[i]; // Move raindrop downwards
+
+            // Reset raindrop if it goes below the screen
+            if (dropY[i] > height) {
+                dropY[i] = random(-height, 0); // Reset to top
+            }
+
+            // Draw raindrop with random color
+            stroke(dropColors[i]);
+            line(dropX[i], dropY[i], dropX[i], dropY[i] + 30); // Vertical line representing raindrop
+        }
+
+        // Draw bubbles
         for (int i = 0; i < maxCircles; i++) {
             if (bubbleActive[i]) {
                 // Bounce off the edges
@@ -96,11 +143,12 @@ public class Sound1 extends PApplet {
         }
     }
 
+
     @Override
     public void keyPressed() {
         switch (key) {
             case '1':
-                bubbleColor = color(150, 200, 255, 150); // Blue
+                bubbleColor = color(20, 52, 255); // Blue
                 break;
             case '2':
                 bubbleColor = color(255, 0, 0, 150); // Red
@@ -112,7 +160,7 @@ public class Sound1 extends PApplet {
                 bubbleColor = color(0, 255, 0, 150); // Green
                 break;
         }
-        
+
         // Update particle colors when bubble color changes
         for (int i = 0; i < numParticles; i++) {
             particles[i].setColor(bubbleColor);
@@ -134,7 +182,7 @@ public class Sound1 extends PApplet {
 
     // Create explosion particles at position
     void explode(float x, float y) {
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             particles[numParticles++] = new Particle(x, y, bubbleColor);
         }
     }
@@ -177,7 +225,7 @@ public class Sound1 extends PApplet {
         void update() {
             x += vx;
             y += vy;
-            vy += 0.1;  
+            vy += 0.1;
         }
 
         void draw() {
@@ -185,7 +233,7 @@ public class Sound1 extends PApplet {
             fill(color);
             ellipse(x, y, size, size);
         }
-        
+
         void setColor(int bubbleColor) {
             this.color = bubbleColor; // Update particle color
         }
