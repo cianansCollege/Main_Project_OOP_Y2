@@ -16,7 +16,7 @@ public class Sound1 extends PApplet {
     float[] circleY;
     float[] speedX;
     float[] speedY;
-    boolean[] bubbleActive; // Track if bubbles are active
+    boolean[] bubbleActive; // Check if bubbles are active
     int bubbleColor = color(20, 52, 255); // Default bubble color
 
     Particle[] particles = new Particle[1000];
@@ -29,7 +29,7 @@ public class Sound1 extends PApplet {
 
     @Override
     public void settings() {
-        size(1200, 800);
+        size(1200, 800); //canvas size
     }
 
     @Override
@@ -81,9 +81,11 @@ public class Sound1 extends PApplet {
             
             // Check for collision with bubbles
             for (int j = 0; j < maxCircles; j++) {
-                if (bubbleActive[j]) {
+                if (bubbleActive[j]) 
+                {
                     float distance = dist(particles[i].x, particles[i].y, circleX[j], circleY[j]);
-                    if (distance < (min(width, height) / 30)) { // Adjust the radius for particle-bubble collision
+                    if (distance < (min(width, height) / 30)) 
+                    { // Adjust the radius for particle-bubble collision
                         bubbleActive[j] = false; // Bubble is popped
                         explode(circleX[j], circleY[j]); // Explode at bubble position
                     }
@@ -142,7 +144,7 @@ public class Sound1 extends PApplet {
             ap.pause(); // Stop the music
         }
     
-        // Display "THE END" text in the middle of the screen
+        // Display "THE END" text in the middle of the screen when all the bubbles are popped
         if (areAllBubblesPopped() && !ap.isPlaying()) {
             textSize(64);
             textAlign(CENTER, CENTER);
@@ -153,7 +155,7 @@ public class Sound1 extends PApplet {
     
     
 
-
+    //trigger colour options based on what key is pressed
     @Override
     public void keyPressed() {
         switch (key) {
