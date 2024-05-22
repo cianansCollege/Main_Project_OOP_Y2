@@ -13,6 +13,10 @@ public class flowers extends PApplet {
     AudioPlayer ap;
     AudioBuffer b;
 
+    public void petal(float centreX, float centreY, float outerX, float outerY){
+        
+    }
+
     @Override
     public void settings() {
         size(1200, 800);
@@ -21,7 +25,7 @@ public class flowers extends PApplet {
     @Override
     public void setup() {
         m = new Minim(this);
-        ap = m.loadFile("BodyGroove_MixMcVersion.mp3");
+        ap = m.loadFile("/Users/ciananfinn/Desktop/OOP/Github/Main_Project_OOP_Y2_ccfc/data/spotifydown.com - Echo.mp3");
         ap.play();
         b = ap.mix;
     }
@@ -83,44 +87,8 @@ public class flowers extends PApplet {
             circle(sideSizeRightMidX, centreY - (centreY/2), circleSize-10*i);
         }
 
-        //stickman time
-        //stickman dance moves : 0 = Start pose, 1 = flex left, 2 = flex both, 3 = reset
-        //arm length is half an arm ie. from shoulder to elbow and from elbow to hand
-        float armLength = middleSize/6;
-        float headRadius = height/14;
-        float bodyLength = armLength*2;
-        float legLength = bodyLength;
-        float bodyStart = blueBoxHeight+(2*headRadius);
-        float bodyEnd = bodyStart + bodyLength;
 
-        //head
-        circle(centreX ,blueBoxHeight+headRadius , headRadius*2);
-        //body
-        line(centreX, bodyStart, centreX, bodyEnd);
-        //upper arm
-        line(centreX, bodyStart, centreX + armLength, bodyStart);
-        line(centreX, bodyStart, centreX - armLength, bodyStart);
-        //legs
-        line(centreX, bodyEnd, centreX + armLength, bodyEnd + legLength);
-        line(centreX, bodyEnd, centreX - armLength, bodyEnd + legLength);
 
-         
-
-        //lower arm
-        if(countStickman == 0){
-            line(centreX + armLength, bodyStart, centreX - armLength*2, bodyStart);
-            line(centreX + armLength, bodyStart, centreX + armLength*2, bodyStart);
-        }
-        if(countStickman == 1){
-            line(centreX - armLength, bodyStart, centreX - armLength, bodyStart - armLength);
-            line(centreX + armLength, bodyStart, centreX + armLength, bodyStart - armLength);
-            countStickman = 0;
-        }
-        
-        if(avgAmplitude > .01){
-                    countStickman = countStickman + 1;
-                    System.out.println("true");
-                }
     }
 
     float lerped = 0;
