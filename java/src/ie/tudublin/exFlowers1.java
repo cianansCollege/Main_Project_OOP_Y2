@@ -6,14 +6,12 @@ import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import processing.core.PApplet;
 
-public class flowers extends PApplet {
+public class exFlowers1 extends PApplet {
 
     Minim m;
     AudioInput ai;
     AudioPlayer ap;
     AudioBuffer b;
-
-    int slowSpeed  = 3;
     
 
     public void flower(float centreX, float centreY, float diam, float rotation) {
@@ -48,46 +46,49 @@ public class flowers extends PApplet {
     
     int dancingSquaresCount = 0;
     
-    public void makeSquare(float x, float y, float size, int r, int g, int b) {
-        fill(r, g, b);
-        rectMode(CENTER);
-        rect(x, y, size, size);
-    }
-    
-    public void dancingSquares(int squarePositions, float thisX, float thisY, int size, int distanceApart) {
-        makeSquare(thisX, thisY - distanceApart, size, 101, 97, 118);
-        makeSquare(thisX + distanceApart, thisY, size, 101, 97, 118);
-        makeSquare(thisX, thisY + distanceApart, size, 101, 97, 118);
-        makeSquare(thisX - distanceApart, thisY, size, 101, 97, 118);
+    public void makeSquare(float box1_x, float box1_y, int box_size, int colour_r, int colour_g, int colour_b){
+        fill(colour_r, colour_g, colour_b);
 
+        float box1_x1 = box1_x - box_size, box1_y1 = box1_y - box_size;
+        float box1_x2 = box1_x + box_size, box1_y2 = box1_y - box_size;
+        float box1_x3 = box1_x - box_size, box1_y3 = box1_y + box_size;
+        float box1_x4 = box1_x + box_size, box1_y4 = box1_y + box_size;
+        line(box1_x1, box1_y1, box1_x2, box1_y2);
+        line(box1_x2, box1_y2, box1_x4, box1_y4);
+        line(box1_x4, box1_y4, box1_x3, box1_y3);
+        line(box1_x3, box1_y3, box1_x1, box1_y1);
+    }
+
+    public void dancingSquares(int squarePositions, float thisX, float thisY){
+        int distanceApart = 80;
         if (squarePositions == 0) {
-            makeSquare(thisX, thisY + distanceApart, size, 254, 255, 190);
-        } else if (squarePositions == 1 * slowSpeed) {
-            makeSquare(thisX - distanceApart, thisY, size, 254, 255, 190);
-        } else if (squarePositions == 2 * slowSpeed) {
-            makeSquare(thisX, thisY - distanceApart, size, 254, 255, 190);
-        } else if (squarePositions == 3 * slowSpeed) {
-            makeSquare(thisX + distanceApart, thisY, size, 254, 255, 190);
+            //sq 1
+            makeSquare(thisX, thisY - distanceApart, 30, 0, 0, 0);
+            //sq 2
+            makeSquare(thisX, thisY + distanceApart, 30, 255, 255, 255);
+        }
+        else if (squarePositions == 1) {
+            //sq 1
+            makeSquare(thisX + distanceApart, thisY, 30, 0, 0, 0);
+            //sq 2
+            makeSquare(thisX - distanceApart, thisY, 30, 255, 255, 255);
+        }
+        else if (squarePositions == 2) {
+            //sq 1
+            makeSquare(thisX, thisY + distanceApart, 30, 0, 0, 0);
+            //sq 2
+            makeSquare(thisX, thisY - distanceApart, 30, 255, 255, 255);
+        }
+        else if (squarePositions == 3) {
+            //sq 1
+            makeSquare(thisX - distanceApart, thisY, 30, 0, 0, 0);
+            //sq 2
+            makeSquare(thisX + distanceApart, thisY, 30, 255, 255, 255);
+        }
+        else{
+            System.out.println("Error with squares");
         }
     }
-
-    public void dancingSquaresReverse(int squarePositions, float thisX, float thisY, int size, int distanceApart) {
-        makeSquare(thisX, thisY - distanceApart, size, 101, 97, 118);
-        makeSquare(thisX + distanceApart, thisY, size, 101, 97, 118);
-        makeSquare(thisX, thisY + distanceApart, size, 101, 97, 118);
-        makeSquare(thisX - distanceApart, thisY, size, 101, 97, 118);
-
-        if (squarePositions == 3 * slowSpeed) {
-            makeSquare(thisX, thisY + distanceApart, size, 254, 255, 190);
-        } else if (squarePositions == 2 * slowSpeed) {
-            makeSquare(thisX - distanceApart, thisY, size, 254, 255, 190);
-        } else if (squarePositions == 1 * slowSpeed) {
-            makeSquare(thisX, thisY - distanceApart, size, 254, 255, 190);
-        } else if (squarePositions == 0) {
-            makeSquare(thisX + distanceApart, thisY, size, 254, 255, 190);
-        }
-    }
-    
 
     @Override
     public void settings() {
@@ -107,13 +108,12 @@ public class flowers extends PApplet {
     public void draw() {
         
         colorMode(RGB);
-        background(248, 241, 255);
+        background(101, 97, 118);
         stroke(255);
 
         float centreX = width / 2;
         float centreY = height / 2;
-        int rotation_speed = 18;
-        float rotation = map(ap.position(), 0, ap.length(), 0, 360) * rotation_speed; // Example: map audio position to rotation
+        float rotation = map(ap.position(), 0, ap.length(), 0, 360); // Example: map audio position to rotation
 
         flower(centreX, centreY, 30, rotation);
         for (int i = 50; i < width; i = i + 50) {
@@ -121,10 +121,7 @@ public class flowers extends PApplet {
             flower(i, height - 50, 15, rotation);
         }
 
-        dancingSquares(dancingSquaresCount%(4 * slowSpeed), 400, 266, 40, 80);
-        dancingSquares(dancingSquaresCount%(4 * slowSpeed), width - 400, height - 266, 40, 80);
-        dancingSquaresReverse(dancingSquaresCount%(4 * slowSpeed), 400, 266, 10, 20);
-        dancingSquaresReverse(dancingSquaresCount%(4 * slowSpeed), width - 400, height - 266, 10, 20);
+        dancingSquares(dancingSquaresCount%4, 400, 266);
         dancingSquaresCount++;
 
         int sideSize = 300;
