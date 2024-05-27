@@ -53,23 +53,30 @@ public class flowers extends PApplet {
         rect(x, y, size, size);
     }
 
+    public void dancingSquaresRings(int rings, int squarePositions, float thisX, float thisY, int size, int distanceApart, boolean reverse){
+        for (int i = 0; i < rings; i++) {
+            dancingSquares(squarePositions, thisX  + 50, thisY, size, distanceApart + 50, reverse);
+        }
+    }
+
     // Method to animate dancing squares
     public void dancingSquares(int squarePositions, float thisX, float thisY, int size, int distanceApart, boolean reverse) {
-        makeSquare(thisX, thisY - distanceApart, size, 101, 97, 118);
-        makeSquare(thisX + distanceApart, thisY, size, 101, 97, 118);
-        makeSquare(thisX, thisY + distanceApart, size, 101, 97, 118);
-        makeSquare(thisX - distanceApart, thisY, size, 101, 97, 118);
+        stroke(248, 241, 255);
+        makeSquare(thisX, thisY - distanceApart, size, 248, 241, 255);
+        makeSquare(thisX + distanceApart, thisY, size, 248, 241, 255);
+        makeSquare(thisX, thisY + distanceApart, size, 248, 241, 255);
+        makeSquare(thisX - distanceApart, thisY, size, 248, 241, 255);
 
         if (!reverse) {
             // Forward animation of squares
             if (squarePositions == 0) {
-                makeSquare(thisX, thisY + distanceApart, size, 254, 255, 190);
+                makeSquare(thisX, thisY + distanceApart, size, 27, 153, 139);
             } else if (squarePositions == 1 * slowSpeed) {
-                makeSquare(thisX - distanceApart, thisY, size, 254, 255, 190);
+                makeSquare(thisX - distanceApart, thisY, size, 27, 153, 139);
             } else if (squarePositions == 2 * slowSpeed) {
-                makeSquare(thisX, thisY - distanceApart, size, 254, 255, 190);
+                makeSquare(thisX, thisY - distanceApart, size, 27, 153, 139);
             } else if (squarePositions == 3 * slowSpeed) {
-                makeSquare(thisX + distanceApart, thisY, size, 254, 255, 190);
+                makeSquare(thisX + distanceApart, thisY, size, 27, 153, 139);
             }
         } else {
             // Reverse animation of squares
@@ -119,10 +126,7 @@ public class flowers extends PApplet {
         }
 
         // Animate dancing squares
-        dancingSquares(dancingSquaresCount % (4 * slowSpeed), 400, 266, 40, 80, false);
-        dancingSquares(dancingSquaresCount % (4 * slowSpeed), width - 400, height - 266, 40, 80, false);
-        dancingSquares(dancingSquaresCount % (4 * slowSpeed), 400, 266, 10, 20, false); // Reverse direction
-        dancingSquares(dancingSquaresCount % (4 * slowSpeed), width - 400, height - 266, 10, 20, false); // Reverse direction
+        dancingSquaresRings(3, dancingSquaresCount % (4 * slowSpeed), 400, 266, 40, 80, false);
         dancingSquaresCount++;
 
         int sideSize = 300;
