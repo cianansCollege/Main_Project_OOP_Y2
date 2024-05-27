@@ -8,7 +8,7 @@ public class Main
 	public void helloProcessing()
 	{
 		String[] a = {"MAIN"};
-        processing.core.PApplet.runSketch( a, new flowers());
+        processing.core.PApplet.runSketch( a, new blathanna1());
     }
 
 	public static void main(String[] args)
