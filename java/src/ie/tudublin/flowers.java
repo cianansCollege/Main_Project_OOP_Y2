@@ -53,12 +53,6 @@ public class flowers extends PApplet {
         rect(x, y, size, size);
     }
 
-    public void dancingSquaresRings(int rings, int squarePositions, float thisX, float thisY, int size, int distanceApart, boolean reverse){
-        for (int i = 0; i < rings; i++) {
-            dancingSquares(squarePositions, thisX  + 50, thisY, size, distanceApart + 50, reverse);
-        }
-    }
-
     // Method to animate dancing squares
     public void dancingSquares(int squarePositions, float thisX, float thisY, int size, int distanceApart, boolean reverse) {
         stroke(248, 241, 255);
@@ -126,7 +120,10 @@ public class flowers extends PApplet {
         }
 
         // Animate dancing squares
-        dancingSquaresRings(3, dancingSquaresCount % (4 * slowSpeed), 400, 266, 40, 80, false);
+        dancingSquares(dancingSquaresCount % (4 * slowSpeed), 400, 266, 40, 80, false);
+        dancingSquares(dancingSquaresCount % (4 * slowSpeed), width - 400, height - 266, 40, 80, false);
+        dancingSquares(dancingSquaresCount % (4 * slowSpeed), 400, 266, 10, 20, false); // Reverse direction
+        dancingSquares(dancingSquaresCount % (4 * slowSpeed), width - 400, height - 266, 10, 20, false); // Reverse direction
         dancingSquaresCount++;
 
         int sideSize = 300;
