@@ -31,9 +31,9 @@ public class Sound1 extends PApplet {
 
     @Override
     public void draw() {
-        colorMode(HSB);
-        background(0);
-        stroke(255);
+        colorMode(RGB);
+        background(144, 195, 240);
+        stroke(0);
         
         float centreX = width / 2;
         float centreY = height / 2;
@@ -71,8 +71,8 @@ public class Sound1 extends PApplet {
         float circleSize = map(avgAmplitude, 0, 1, 0, min(width, height));
 
         for (int i = 0; i < 10; i++) {
-            fill(0);
-            stroke(255);
+            fill(39, 83, 122);
+            stroke(0);
             circle(sideSizeLeftMidX, centreY, circleSize-10*i);
             circle(sideSizeRightMidX, centreY, circleSize-10*i);
 
